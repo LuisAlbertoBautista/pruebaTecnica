@@ -1,4 +1,4 @@
-package com.example.pruebatecnicaapp.viewmodels
+package com.example.pruebatecnicaapp.ui.viewmodels
 
 import android.location.Location
 import androidx.lifecycle.MutableLiveData

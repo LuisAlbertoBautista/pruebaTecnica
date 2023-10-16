@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <LinearLayout
         android:id="@+id/ly_not_found_events"
@@ -17,6 +17,7 @@
         android:orientation="vertical"
         android:gravity="center">
         <ImageView
+            android:id="@+id/img_add_event"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:scaleX=".3"
@@ -30,18 +31,23 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ly_principal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
         <TextView
             android:id="@+id/tv_ubicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_evento"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

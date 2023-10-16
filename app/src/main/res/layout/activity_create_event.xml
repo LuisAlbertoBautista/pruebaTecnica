@@ -17,7 +17,7 @@
 
 
     <EditText
-        android:id="@+id/editTextUbicacion"
+        android:id="@+id/editTextDescripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Descripcion del evento"

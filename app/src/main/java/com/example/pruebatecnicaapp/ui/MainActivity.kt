@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.pruebatecnicaapp.adapters.EventoAdapter
 import com.example.pruebatecnicaapp.databinding.ActivityMainBinding
 import com.example.pruebatecnicaapp.db.AppDatabase
+import com.example.pruebatecnicaapp.db.Evento
 import com.example.pruebatecnicaapp.utils.LocationProvider
 import com.example.pruebatecnicaapp.ui.viewmodels.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var eventoAdapter: EventoAdapter
+
+   private lateinit var eventos : List<Evento>
 
     @Inject
     lateinit var appDatabase: AppDatabase
@@ -48,10 +51,12 @@ class MainActivity : AppCompatActivity() {
         } else {
             requestLocationPermissions()
         }
-        binding.imgAddEvent.setOnClickListener(){
+        val listener = View.OnClickListener {
             val intent = Intent(this, CreateEvent::class.java)
             startActivity(intent)
         }
+        binding.imgAddEvent.setOnClickListener(listener)
+        binding.btnAddNew.setOnClickListener(listener)
         GlobalScope.launch(Dispatchers.IO) {
             initReciclerView()
         }
@@ -60,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
 
     suspend fun initReciclerView(){
-        val eventos = appDatabase.eventoDao().obtenerTodosLosEventos()
+        eventos = appDatabase.eventoDao().obtenerTodosLosEventos()
             eventoAdapter = EventoAdapter(eventos)
             binding.recyclerview.adapter = eventoAdapter
             if (!eventos.isEmpty()){
@@ -103,6 +108,13 @@ class MainActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startLocationUpdates()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        GlobalScope.launch(Dispatchers.IO) {
+            initReciclerView()
         }
     }
 }

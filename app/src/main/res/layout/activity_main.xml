@@ -1,65 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <ImageView
+    android:layout_width="96dp"
+    android:layout_height="96dp"
+    android:layout_gravity="center_horizontal"
+    android:src="@drawable/ic_launcher_foreground"/>
 
-    <LinearLayout
-        android:id="@+id/ly_not_found_events"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/img_add_event"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:scaleX=".3"
-            android:scaleY=".3"
-            android:src="@drawable/add_event_icon_style_vector"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Aun no tienes eventos agrega uno nuevo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/ly_principal"
+    <EditText
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        >
-        <TextView
-            android:id="@+id/tv_ubicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_evento"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-    </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add_new"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:src="@drawable/_486485557_add_create_new_more_plus_81188"
-        android:layout_margin="8dp"
-        app:fabCustomSize="55dp"
-        app:maxImageSize="40dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_height="wrap_content"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contraseña"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Iniciar Sesión"
+        android:id="@+id/btnLogin"
+        android:backgroundTint="#E91E63"/>
+
+
+
+</LinearLayout>

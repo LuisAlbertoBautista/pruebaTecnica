@@ -1,120 +1,58 @@
 package com.example.pruebatecnicaapp.ui
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import com.example.pruebatecnicaapp.adapters.EventoAdapter
 import com.example.pruebatecnicaapp.databinding.ActivityMainBinding
-import com.example.pruebatecnicaapp.db.AppDatabase
-import com.example.pruebatecnicaapp.db.Evento
-import com.example.pruebatecnicaapp.utils.LocationProvider
-import com.example.pruebatecnicaapp.ui.viewmodels.MainActivityViewModel
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var vm: MainActivityViewModel
-    private lateinit var locationProvider: LocationProvider
+
     private lateinit var binding: ActivityMainBinding
-
-    private lateinit var eventoAdapter: EventoAdapter
-
-   private lateinit var eventos : List<Evento>
-
-    @Inject
-    lateinit var appDatabase: AppDatabase
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        auth = Firebase.auth
 
-        vm = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-
-        locationProvider = LocationProvider(this)
-
-        // Solicitar permisos de ubicación
-        if (hasLocationPermissions()) {
-            startLocationUpdates()
-        } else {
-            requestLocationPermissions()
+        binding.btnLogin.setOnClickListener(){
+            validateEditText()
         }
-        val listener = View.OnClickListener {
-            val intent = Intent(this, CreateEvent::class.java)
-            startActivity(intent)
-        }
-        binding.imgAddEvent.setOnClickListener(listener)
-        binding.btnAddNew.setOnClickListener(listener)
-        GlobalScope.launch(Dispatchers.IO) {
-            initReciclerView()
+
+    }
+
+    fun validateEditText(){
+        val correo = binding.etEmail.text.toString().trim()
+        val pass = binding.etPassword.text.toString().trim()
+        if (correo.equals("")){
+            Toast.makeText(this, "Debes ingresar tu email", Toast.LENGTH_SHORT).show()
+        }else if (pass.isEmpty()){
+            Toast.makeText(this, "Debes ingresar tu pass", Toast.LENGTH_SHORT).show()
+        }else{
+            login(correo,pass)
         }
     }
 
-
-
-    suspend fun initReciclerView(){
-        eventos = appDatabase.eventoDao().obtenerTodosLosEventos()
-            eventoAdapter = EventoAdapter(eventos)
-            binding.recyclerview.adapter = eventoAdapter
-            if (!eventos.isEmpty()){
-                binding.lyPrincipal.visibility = View.VISIBLE
-                binding.lyNotFoundEvents.visibility = View.GONE
-            }
-    }
-
-    private fun startLocationUpdates() {
-        vm.startLocationUpdates(locationProvider)
-        updateLocationTextView()
-    }
-
-    private fun updateLocationTextView() {
-        vm.mutableDataLocation.observe(this){
-            binding.tvUbicacion.text = vm.mutableDataLocation.value
-        }
-    }
-
-    private fun hasLocationPermissions(): Boolean {
-        return (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED)
-    }
-
-    private fun requestLocationPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            42
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 42) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationUpdates()
+    fun login(correo: String, pass: String){
+        auth.signInWithEmailAndPassword(correo,pass).addOnCompleteListener(this){ task ->
+            if (task.isSuccessful) {
+                val intent = Intent(this, ListaPokemon::class.java)
+                startActivity(intent)
+                Toast.makeText(this, "Sesion exitosa", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                Toast.makeText(this, "Ha ocurrido un error al iniciar sesion, intentelo de nuevo", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalScope.launch(Dispatchers.IO) {
-            initReciclerView()
-        }
-    }
 }

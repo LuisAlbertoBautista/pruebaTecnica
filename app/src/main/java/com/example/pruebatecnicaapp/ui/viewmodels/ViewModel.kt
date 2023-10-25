@@ -5,15 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.example.pruebatecnicaapp.connectivity.api.NetworkResponse
 import com.example.pruebatecnicaapp.connectivity.api.dataAccess
 import com.example.pruebatecnicaapp.connectivity.repository.ApiRepository
-import com.example.pruebatecnicaapp.utils.Constants
 import com.example.pruebatecnicaapp.utils.Constants.BASE_URL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.ResponseBody
 import javax.inject.Inject
 
 @HiltViewModel
-class ListaPokemonViewModel @Inject constructor(private val api: ApiRepository) : ViewModel() {
-    fun getListPkemon(): LiveData<NetworkResponse<ResponseBody>> {
-        return dataAccess { api.simpleGet(BASE_URL+"pokemon/")}
+class ViewModel @Inject constructor(private val api: ApiRepository) : ViewModel() {
+    fun simpleGet(): LiveData<NetworkResponse<ResponseBody>> {
+        return dataAccess { api.simpleGet(BASE_URL+"")}
     }
 }

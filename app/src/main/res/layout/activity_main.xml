@@ -7,33 +7,4 @@
     tools:context=".ui.MainActivity"
     android:orientation="vertical"
     android:padding="16dp">
-    <ImageView
-    android:layout_width="96dp"
-    android:layout_height="96dp"
-    android:layout_gravity="center_horizontal"
-    android:src="@drawable/ic_launcher_foreground"/>
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"/>
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:inputType="textPassword"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Iniciar Sesión"
-        android:id="@+id/btnLogin"
-        android:backgroundTint="#E91E63"/>
-
-
-
 </LinearLayout>

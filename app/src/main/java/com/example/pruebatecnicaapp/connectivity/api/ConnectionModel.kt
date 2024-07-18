@@ -7,5 +7,5 @@ import retrofit2.http.*
 interface ConnectionModel {
     @GET
     @Headers("Content-Type: application/json; charset=UTF-8")
-    suspend fun simpleGet(@Url url: String): Response<ResponseBody>
+    suspend fun simpleGet(@Url url: String, @Header("authorization") accessToken: String): Response<ResponseBody>
 }

@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.PruebaTecnicaApp" parent="Base.Theme.PruebaTecnicaApp" />
+    <style name="itemTittle">
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

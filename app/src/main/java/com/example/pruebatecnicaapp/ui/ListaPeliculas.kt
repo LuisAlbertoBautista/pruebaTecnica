@@ -6,33 +6,30 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
-import com.example.pruebatecnicaapp.R
-import com.example.pruebatecnicaapp.adapters.PokemonAdapter
+import com.example.pruebatecnicaapp.adapters.PeliculasAdapter
 import com.example.pruebatecnicaapp.connectivity.api.NetworkResponse
-import com.example.pruebatecnicaapp.connectivity.api.convertToObject
-import com.example.pruebatecnicaapp.databinding.ActivityListaPokemonBinding
-import com.example.pruebatecnicaapp.models.ListPokemonResponse
+import com.example.pruebatecnicaapp.databinding.ActivityListaPeliculasBinding
+import com.example.pruebatecnicaapp.models.Data
 import com.example.pruebatecnicaapp.models.Result
-import com.example.pruebatecnicaapp.ui.viewmodels.ListaPokemonViewModel
+import com.example.pruebatecnicaapp.ui.viewmodels.ListaPeliculasViewModel
 import com.example.pruebatecnicaapp.utils.Constants.TAG
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListaPokemon : AppCompatActivity() {
+class ListaPeliculas : AppCompatActivity() {
 
-    private lateinit var binding: ActivityListaPokemonBinding
-    private lateinit var vm: ListaPokemonViewModel
+    private lateinit var binding: ActivityListaPeliculasBinding
+    private lateinit var vm: ListaPeliculasViewModel
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListaPokemonBinding.inflate(layoutInflater)
+        binding = ActivityListaPeliculasBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        vm = ViewModelProvider(this).get(ListaPokemonViewModel::class.java)
+        vm = ViewModelProvider(this).get(ListaPeliculasViewModel::class.java)
         auth = Firebase.auth
         binding.btnLogout.setOnClickListener(){
             mostrarDialogoCerrarSesion()
@@ -40,13 +37,13 @@ class ListaPokemon : AppCompatActivity() {
         getList()
     }
     fun getList(){
-        vm.getListPkemon().observe(this){ response ->
+        vm.getListPeliculas().observe(this){ response ->
             when (response.status) {
                 NetworkResponse.Status.LOADING -> {
                 }
                 NetworkResponse.Status.SUCCESS -> {
                     response.data?.let {
-                        val response = Gson().fromJson(it.string(), ListPokemonResponse::class.java)
+                        val response = Gson().fromJson(it.string(), Data::class.java)
                         val models = response.results
                         try {
                             loadData(models)
@@ -63,8 +60,8 @@ class ListaPokemon : AppCompatActivity() {
     }
 
     fun loadData(models: List<Result>){
-        val pokemonAdapterPokemon = PokemonAdapter(models, this)
-        binding.recyclerview.adapter = pokemonAdapterPokemon
+        val peliculasAdapter = PeliculasAdapter(models, this)
+        binding.recyclerview.adapter = peliculasAdapter
     }
 
     private fun mostrarDialogoCerrarSesion() {

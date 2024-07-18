@@ -17,12 +17,6 @@
         android:theme="@style/Theme.PruebaTecnicaApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DetallePokemon"
-            android:exported="false" />
-        <activity
-            android:name=".ui.ListaPokemon"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -31,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.pruebatecnicaapp.ui.ListaPeliculas" />
+        <activity android:name="com.example.pruebatecnicaapp.ui.DetallePeliculas" />
     </application>
 
 </manifest>

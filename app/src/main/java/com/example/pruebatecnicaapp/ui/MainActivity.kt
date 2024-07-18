@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pruebatecnicaapp.databinding.ActivityMainBinding
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     fun login(correo: String, pass: String){
         auth.signInWithEmailAndPassword(correo,pass).addOnCompleteListener(this){ task ->
             if (task.isSuccessful) {
-                val intent = Intent(this, ListaPokemon::class.java)
+                val intent = Intent(this, ListaPeliculas::class.java)
                 startActivity(intent)
                 Toast.makeText(this, "Sesion exitosa", Toast.LENGTH_SHORT).show()
                 finish()
